@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>HOME</h1>
+        <a id="add" href="#">전시회 등록</a>
+        <a id="crawling" href="#">웹 크롤링</a>
+        <a id="list" href="#">전시회 목록</a>
+        
+    <script>
+        $('#add').click(e => { location.href="/move/shows/add"})
+        $('#crawling').click(e => { 
+            $.getJSON(`/shows/crawling/sac`, d => {
+
+            })
+        })
+        $('#list').click(e => { location.href="/move/shows/list"})
+    </script>
+</body>
+</html>

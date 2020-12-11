@@ -1,0 +1,16 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.repositories.ShowRepository">
+    <insert id="insert" parameterType="com.example.demo.domains.ShowDto">
+        insert into articles (title, venue, period, time)
+        values (#{title}, #{venue}, #{period}, #{time})
+    </insert>
+    <select id="selectAll" resultType="com.example.demo.domains.ShowDto">
+        select title,
+                venue,
+                period,
+                time
+        from shows
+    </select>
+</mapper>

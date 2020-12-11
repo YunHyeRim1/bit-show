@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        table {border: black 1px solid}
+        table tr {border: black 1px solid}
+        table tr td {border: black 1px solid}
+        table tr th {border: black 1px solid}
+    </style>
+</head>
+<body>
+    <h1>전시회 등록</h1>
+    <form>
+        <input id="title" type="text" name="bdTitle" class="form-control mt-4 mb-2"
+            placeholder="제목을 입력해주세요." required
+        ><br/>
+        <input id="venue"  type="text" name="bdTitle" class="form-control mt-4 mb-2"
+            placeholder="장소를 입력해주세요." required
+        ><br/>
+        <input id="period"  type="text" name="bdTitle" class="form-control mt-4 mb-2"
+            placeholder="기간을 입력해주세요." required
+        ><br/>
+        <input id="time"  type="text" name="bdTitle" class="form-control mt-4 mb-2"
+            placeholder="시간을 입력해주세요." required
+        ><br/>
+        <button id="add-btn" class="btn btn-secondary mb-3">등록하기</button>
+    </form>
+    <script>
+        $('#add-btn').click(e => { 
+            $.ajax({
+                url: '/shows',
+                type: 'POST',
+                data: JSON.stringify({
+                    title: $('#title').val(),
+                    venue: $('#venue').val(),
+                    period: $('#period').val(),
+                    time: $('#time')
+                }),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: d => {
+                    if(d.message === 'SUCCESS'){
+                        location.href = "/move/shows/list"
+                    }else{
+                        alert(`등록 실패했습니다. 다시 시도해 주세요`)
+                        location.href = "/move/shows/add"
+                    }
+                },
+                error: e => {
+                    alert(`등록 에러 ${e}`)
+                }
+            })
+        })
+   </script>
+</body>
+</html>
