@@ -7,5 +7,5 @@ import lombok.Data;
 
 @Component @Data @Lazy
 public class ShowDto {
-    private String artist, title, period, time, venue, admission, price, host, management, inquiry;
+    private String showNum, subTitle, title, period, time, venue, admission, price, host, management, inquiry;
 }

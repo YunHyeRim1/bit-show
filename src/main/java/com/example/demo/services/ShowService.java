@@ -9,8 +9,18 @@ import org.springframework.stereotype.Component;
 @Component
 public interface ShowService {
 
-    public int write(ShowDto show);
+    public int add(ShowDto show);
     
 	public List<ShowDto> list();
+	
+	public int count();
+	
+    public ShowDto getShowById(String showNum);
+    
+	public int update(ShowDto show);
+	
+	public int delete(ShowDto show);
+
+	public int crawling(String url);
 
 }

@@ -3,14 +3,46 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.repositories.ShowRepository">
     <insert id="insert" parameterType="com.example.demo.domains.ShowDto">
-        insert into articles (title, venue, period, time)
-        values (#{title}, #{venue}, #{period}, #{time})
+        insert into shows (show_num, sub_title, title, period, time, venue, admission, price, host, management, inquiry) 
+        values (#{showNum}, #{subTitle}, #{title}, #{period}, #{time}, #{venue}, #{admission}, #{price}, #{host}, #{management}, #{inquiry})
     </insert>
+    <select id="count" resultType="int">
+        select count(*) from shows 
+   </select>
     <select id="selectAll" resultType="com.example.demo.domains.ShowDto">
-        select title,
-                venue,
-                period,
-                time
+        select show_num showNum,
+                sub_title subTitle, 
+                title, 
+                period, 
+                time, 
+                venue, 
+                admission, 
+                price, 
+                host, 
+                management, 
+                inquiry
         from shows
     </select>
+    <select id="selectById" resultType="com.example.demo.domains.ShowDto" parameterType="string" >
+        select show_num showNum,
+                sub_title subTitle, 
+                title, 
+                period, 
+                time, 
+                venue, 
+                admission, 
+                price, 
+                host, 
+                management, 
+                inquiry
+        from shows
+        where show_num like #{value}
+    </select>
+    <update id="update" parameterType="com.example.demo.domains.ShowDto">
+        update shows set sub_title = #{subTitle}, title = #{title}, period = #{period}, time = #{time}, venue = #{venue}, admission = #{admission}, price = #{price}, host = #{host}, management = #{management}, inquiry = #{inquiry}
+        where show_num like #{showNum}
+    </update>
+    <delete id="delete" parameterType="com.example.demo.domains.ShowDto">
+        delete from shows where show_num like #{showNum}
+    </delete>
 </mapper>

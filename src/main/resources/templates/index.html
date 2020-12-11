@@ -5,21 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
 </head>
 <body>
     <h1>HOME</h1>
         <a id="add" href="#">전시회 등록</a>
-        <a id="crawling" href="#">웹 크롤링</a>
         <a id="list" href="#">전시회 목록</a>
-        
+        <a id="crawling" href="#">웹 크롤링</a>
+        <a id="detail" href="#">전시회 상세</a>
     <script>
         $('#add').click(e => { location.href="/move/shows/add"})
+        $('#list').click(e => { location.href="/move/shows/list"})
+        $('#detail').click(e => { location.href="/move/shows/detail"})
         $('#crawling').click(e => { 
             $.getJSON(`/shows/crawling/sac`, d => {
-
+                alert(`등록된 전시회 수: ${d.count}`)
             })
         })
-        $('#list').click(e => { location.href="/move/shows/list"})
     </script>
 </body>
 </html>

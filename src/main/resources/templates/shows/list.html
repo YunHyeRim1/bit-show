@@ -5,8 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        table {border: black 1px solid}
+        table tr {border: black 1px solid}
+        table tr td {border: black 1px solid}
+        table tr th {border: black 1px solid}
+    </style>
 </head>
 <body>
-    
+    <h1>전시회 목록</h1>
+    <a id="home" href="#"> Go Home </a>
+    <table class="table table-hover"></table>
+    <table>
+        <thead>
+            <tr>
+                <th class="text-center">글번호</th>
+                <th class="text-center">부제</th>
+                <th class="text-center">제목</th>
+                <th class="text-center">기간</th>
+                <th class="text-center">시간</th>
+                <th class="text-center">장소</th>
+                <th class="text-center">관람등급</th>
+                <th class="text-center">가격</th>
+                <th class="text-center">주최</th>
+                <th class="text-center">주관</th>
+                <th class="text-center">문의</th>
+            </tr>
+    </thead>
+    <tbody id="tb"></tbody>
+    </table>
+    <script>
+        $('#home').click(e => { location.href="/"})
+        $.getJSON('/shows', d => {
+            if(d.count != 0) {
+                const list = d.list
+                let tr = ''
+                let i = 0
+                for(; i < d.count; i++) {
+                    tr+= '<tr>'
+                        +'<td class="text-center">'+list[i].showNum+'</td>'
+                        +'<td class="text-center">'+list[i].subTitle+'</td>'
+                        +'<td class="text-center"><a class="title" id="'+list[i].showNum+'" href="#" >'+list[i].title+'</a></td>'
+                        +'<td class="text-center">'+list[i].period+'</td>'
+                        +'<td class="text-center">'+list[i].time+'</td>'
+                        +'<td class="text-center">'+list[i].venue+'</td>'
+                        +'<td class="text-center">'+list[i].admission+'</td>'
+                        +'<td class="text-center">'+list[i].price+'</td>'
+                        +'<td class="text-center">'+list[i].host+'</td>'
+                        +'<td class="text-center">'+list[i].management+'</td>'
+                        +'<td class="text-center">'+list[i].inquiry+'</td>'
+                        +'</tr>'
+                }
+                $('#tb').html(tr)
+                $('.title').each(function(i) {
+                    $(this).click(e => {
+                        e.preventDefault()
+                        localStorage.setItem('showNum', `${this.id}`)
+                        location.href = '/move/shows/detail'
+                    })
+                })
+            }else {
+                alert(`목록 실패`)
+                $(".showNum").text('조회결과 없음')
+                $(".subTitle").text('조회결과 없음')
+                $(".title").text('조회결과 없음')
+                $(".period").text('조회결과 없음')
+                $(".time").text('조회결과 없음')
+                $(".venue").text('조회결과 없음')
+                $(".admission").text('조회결과 없음')
+                $(".price").text('조회결과 없음')
+                $(".host").text('조회결과 없음')
+                $(".management").text('조회결과 없음')
+                $(".inauiry").text('조회결과 없음')
+            }
+        })        
+   </script>
 </body>
 </html>

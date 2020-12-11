@@ -5,13 +5,152 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        table {border: black 1px solid}
+        table tr {border: black 1px solid}
+        table tr td {border: black 1px solid}
+        table tr th {border: black 1px solid}
+    </style>
 </head>
 <body>
     <h1>전시 상세</h1>
-    <form>
-        <table>
-            
-        </table>
-    </form>
+    <a id="home" href="#"> Go Home </a>
+    <table class="table">
+        <thead>
+            <tr>
+                <td>글번호</td>
+                <td id="showNum"></td>
+            </tr>
+            <tr>
+                <td>부제</td>
+                <td id="subTitle"></td>
+            </tr>
+            <tr>
+                <td>제목</td>
+                <td id="title"></td>
+            </tr>
+            <tr>
+                <td>기간</td>
+                <td id="period"></td>
+            </tr>
+            <tr>
+                <td>시간</td>
+                <td id="time"></td>
+            </tr>
+            <tr>
+                <td>장소</td>
+                <td id="venue"></td>
+            </tr>
+            <tr>
+                <td>관람등급</td>
+                <td id="admission"></td>
+            </tr>
+            <tr>
+                <td>가격</td>
+                <td id="price"></td>
+            </tr>
+            <tr>
+                <td>주최</td>
+                <td id="host"></td>
+            </tr>
+            <tr>
+                <td>주관</td>
+                <td id="management"></td>
+            </tr>
+            <tr>
+                <td>문의</td>
+                <td id="inquiry"></td>
+            </tr>
+
+    </thead>
+    <tbody>
+            <tr id="toggle"><td></td></tr>
+    </tbody>
+    </table>
+    <script>
+        $('#home').click(e => { location.href="/"})
+        $.getJSON(`/shows/${localStorage.getItem('showNum')}`, d => {
+            $('#showNum').text(d.showNum)
+            $('#subTitle').text(d.subTitle)
+            $('#title').text(d.title)
+            $('#period').text(d.period)
+            $('#time').text(d.time)
+            $('#venue').text(d.venue)
+            $('#admission').text(d.admission)
+            $('#price').text(d.price)
+            $('#host').text(d.host)
+            $('#management').text(d.management)
+            $('#inquiry').text(d.inquiry)
+            $('#toggle').html('<button id="update-btn">수정</button><button id="delete-btn">삭제</button>')
+
+            $('#update-btn').click(e => { 
+                $('#subTitle').html('<input id="update-subTitle" type="text" value="'+d.subTitle+'"/>')
+                $('#title').html('<input id="update-title" type="text" value="'+d.title+'"/>')
+                $('#period').html('<input id="update-period" type="text" value="'+d.period+'"/>')
+                $('#time').html('<input id="update-time" type="text" value="'+d.time+'"/>')
+                $('#venue').html('<input id="update-venue" type="text" value="'+d.venue+'"/>')
+                $('#admission').html('<input id="update-admission" type="text" value="'+d.admission+'"/>')
+                $('#price').html('<input id="update-price" type="text" value="'+d.price+'"/>')
+                $('#host').html('<input id="update-host" type="text" value="'+d.host+'"/>')
+                $('#management').html('<input id="update-management" type="text" value="'+d.management+'"/>')
+                $('#inquiry').html('<input id="update-inquiry" type="text" value="'+d.inquiry+'"/>')
+                $('#update').text('수정 화면')
+                $('#toggle').html('<button id="confirm">수정 확인</button>')
+                $('#confirm').click(e => {
+                    e.preventDefault()
+                    $.ajax({
+                        url: `/shows`,
+                        type: 'PUT',
+                        data: JSON.stringify({
+                            showNum: d.showNum,
+                            subTitle: $('#update-subTitle').val(),
+                            title: $('#update-title').val(),
+                            period: $('#update-period').val(),
+                            time: $('#update-time').val(),
+                            venue: $('#update-venue').val(),
+                            admission: $('#update-admission').val(),
+                            price: $('#update-price').val(),
+                            host: $('#update-host').val(),
+                            management: $('#update-management').val(),
+                            inquiry: $('#update-inquiry').val()
+                        }),
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        success: d => {
+                            if(d.message === 'SUCCESS'){
+                                location.href = '/move/shows/detail'
+                            }else{
+                                alert(`수정 실패`)
+                            }
+                        },
+                        error: e => {alert(`수정 에러 발생: ${e}`)}
+                    })
+                })
+
+            })
+            $('#delete-btn').click(e => {
+                e.preventDefault()
+                $.ajax({
+                    url: `/shows`,
+                    type: `DELETE`,
+                    data: JSON.stringify({
+                        showNum: d.showNum
+                    }),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: d => {
+                        if(d.message === 'SUCCESS') {
+                            location.href = '/move/shows/list'
+                        }else {
+                            alert(`삭제 실패`)
+                        }
+                    },
+                    error: e => {
+                        alert(`삭제 에러 발생: ${e}`)
+                    }
+                })
+            })
+        })
+   </script>
 </body>
 </html>
